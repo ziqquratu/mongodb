@@ -1,33 +1,10 @@
-import {Collection, QueryOptions} from '@ziggurat/ziggurat';
-import {EventEmitter} from 'eventemitter3';
-import {ObjectID, Collection as MongoCollection} from 'mongodb';
+import {Collection as MongoCollection} from 'mongodb';
+import {MongoDBCollection} from './collection';
+import {Container} from '@ziggurat/tiamat';
+import {Collection, CollectionProducer} from '@ziggurat/ziggurat';
 
-export class MongoDBCollection extends EventEmitter implements Collection {
-  public constructor(private collection: MongoCollection) {
-    super();
-  }
-
-  public get name(): string {
-    return this.collection.collectionName;
-  }
-
-  public async find(selector: object = {}, options: QueryOptions = {}): Promise<any[]> {
-    return [];
-  }
-
-  public async findOne(selector: object): Promise<any> {
-    return null;
-  }
-
-  public async upsert(obj: any): Promise<any> {
-    return null;
-  }
-
-  public async remove(selector: object): Promise<any[]> {
-    return [];
-  }
-
-  public async count(selector?: object): Promise<number> {
-    return 0;
-  }
+export function mongodb(collection: MongoCollection): CollectionProducer {
+  return (container: Container, name: string): Collection => {
+    return new MongoDBCollection(collection, name);
+  };
 }
