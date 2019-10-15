@@ -1,6 +1,6 @@
 import {Collection, QueryOptions} from '@ziggurat/ziggurat';
 import {EventEmitter} from 'eventemitter3';
-import {ObjectID, Collection as MongoCollection} from 'mongodb';
+import {Collection as MongoCollection} from 'mongodb';
 
 export class MongoDBCollection extends EventEmitter implements Collection {
   public constructor(
@@ -29,7 +29,7 @@ export class MongoDBCollection extends EventEmitter implements Collection {
   }
 
   public async findOne(selector: object): Promise<any> {
-    const doc = await this.collection.findOne(this.toObjectID(selector));
+    const doc = await this.collection.findOne(selector);
     if (!doc) {
       throw new Error('Failed to find document in collection');
     }
@@ -58,18 +58,5 @@ export class MongoDBCollection extends EventEmitter implements Collection {
 
   public async count(selector?: object): Promise<number> {
     return this.collection.countDocuments(selector);
-  }
-
-  private toObjectID(selector: any): any {
-    if (!selector._id) {
-      return selector;
-    }
-    const out = JSON.parse(JSON.stringify(selector));
-    const id = out._id;
-
-    if (typeof id === 'string' || typeof id === 'number') {
-      out._id = new ObjectID(id);
-    }
-    return out;
   }
 }
