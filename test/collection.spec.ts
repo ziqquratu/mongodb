@@ -73,4 +73,15 @@ describe('MongoDBCollection', () => {
       expect(docs[0]).to.haveOwnProperty('foo').equal('bar');
     });
   });
+
+  describe('remove', () => {
+    it('should return empty list when no documents match selector', () => {
+      return expect(col.remove({_id: '5da59296d6f3f71c28ae0aff'})).to.eventually.be.empty;
+    });
+    it('should return a list of deleted documents', async () => {
+      const docs = await col.remove({foo: 'bar'});
+      expect(docs).to.have.length(1);
+      expect(docs[0]).to.haveOwnProperty('foo').equal('bar');
+    });
+  });
 });
