@@ -23,7 +23,17 @@ export class MongoDBCollection extends EventEmitter implements Collection {
   }
 
   public async upsert(obj: any): Promise<any> {
-    return null;
+    let res: any;
+    try {
+      res = await this.collection.insertOne(obj);
+    } catch (err) {
+      res = await this.collection.updateOne({_id: obj._id}, {$set: obj});
+      return obj;
+    }
+    if (res.result.ok === 1) {
+      return res.ops[0];
+    }
+    throw Error('Failed to insert');
   }
 
   public async remove(selector: object): Promise<any[]> {
@@ -31,7 +41,7 @@ export class MongoDBCollection extends EventEmitter implements Collection {
   }
 
   public async count(selector?: object): Promise<number> {
-    return 0;
+    return this.collection.count(selector);
   }
 
   private toObjectID(selector: any): any {

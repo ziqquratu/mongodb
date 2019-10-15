@@ -21,8 +21,33 @@ describe('MongoDBCollection', () => {
     col = new MongoDBCollection(mongoCollection, 'test');
   });
 
-  after(() => {
-    mongoCollection.drop();
+  after(async () => {
+    await mongoCollection.drop();
+  });
+
+  describe('upsert', () => {
+    it('should add a single document', async () => {
+      let doc = await col.upsert({data: 'value'});
+      expect(doc.data).to.eql('value');
+      expect(doc).to.haveOwnProperty('_id');
+    });
+    it('should update a single document', async () => {
+      let doc1: any = await col.upsert({data: 'value'});
+      let doc2 = await col.upsert({_id: doc1._id, data: 'new value'});
+      expect(doc1._id).to.eql(doc2._id);
+      expect(doc1.data).to.eql('value');
+      expect(doc2.data).to.eql('new value');
+    });
+  });
+
+  describe('count', () => {
+    it('should return 0 when no documents are matching', () => {
+      expect(col.count({foo: 'no matches'})).to.eventually.eql(0);
+    });
+    it('should be 1 when a document is added', async () => {
+      await col.upsert({foo: 'bar'});
+      expect(col.count({foo: 'bar'})).to.eventually.eql(1);
+    });
   });
 
   describe('findOne', () => {
