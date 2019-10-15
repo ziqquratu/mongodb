@@ -57,7 +57,7 @@ export class MongoDBCollection extends EventEmitter implements Collection {
   }
 
   public async count(selector?: object): Promise<number> {
-    return this.collection.count(selector);
+    return this.collection.countDocuments(selector);
   }
 
   private toObjectID(selector: any): any {
