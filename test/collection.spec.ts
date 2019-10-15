@@ -1,10 +1,14 @@
-import {MongoClient, Collection as MongoCollection} from 'mongodb';
+import {Collection as MongoCollection} from 'mongodb';
 import {Collection} from '@ziggurat/ziggurat';
 import {MongoDBCollection} from '../src/collection';
 import {expect} from 'chai';
 import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import 'mocha';
+
+let mongodb = require('mongo-mock');
+let MongoClient = mongodb.MongoClient;
+MongoClient.persist = 'mongo.js';
 
 chai.use(chaiAsPromised);
 
@@ -13,8 +17,7 @@ describe('MongoDBCollection', () => {
   let col: Collection;
 
   before(async () => {
-    const client = new MongoClient('mongodb://localhost:27017', {useUnifiedTopology: true});
-    await client.connect();
+    const client = await MongoClient.connect('mongodb://localhost:27017/test', {});
 
     mongoCollection = client.db('test').collection('test');
 
@@ -52,7 +55,11 @@ describe('MongoDBCollection', () => {
 
   describe('findOne', () => {
     it('should throw when document is not found', () => {
-      expect(col.findOne({_id: '5da59296d6f3f71c28ae0aff'})).to.eventually.throw();
+      return expect(col.findOne({_id: '5da59296d6f3f71c28ae0aff'})).to.eventually.be.rejectedWith('');
+    });
+    it('should return the document when found', async () => {
+      let doc = await col.findOne({foo: 'bar'});
+      expect(doc).to.haveOwnProperty('foo').equals('bar');
     });
   });
 });

@@ -6,7 +6,8 @@ var gulp        = require('gulp'),
     batch       = require('gulp-batch'),
     watch       = require('gulp-watch'),
     exec        = require('child_process').exec,
-    runSequence = require('run-sequence');
+    runSequence = require('run-sequence'),
+    del         = require('del');
 
 // Lint
 //-----------------------------------------------------------------------------
@@ -27,6 +28,10 @@ gulp.task('test', function(cb) {
     console.log(stderr);
     cb();
   });
+});
+
+gulp.task('test:clean', function () {
+  return del(['mongo.js']);
 });
 
 var tstProject = tsc.createProject('tsconfig.json', {
@@ -76,5 +81,5 @@ gulp.task('watch', function () {
 // Default
 //-----------------------------------------------------------------------------
 gulp.task('default', function (cb) {
-  runSequence('lint', 'test', ['build', 'build-dts'], cb);
+  runSequence('lint', 'test', 'test:clean', ['build', 'build-dts'], cb);
 });
