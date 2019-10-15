@@ -15,7 +15,11 @@ export class MongoDBCollection extends EventEmitter implements Collection {
   }
 
   public async findOne(selector: object): Promise<any> {
-    return null;
+    const doc = this.collection.findOne(this.toObjectID(selector));
+    if (!doc) {
+      throw new Error('Failed to find document in collection');
+    }
+    return doc;
   }
 
   public async upsert(obj: any): Promise<any> {
@@ -28,5 +32,18 @@ export class MongoDBCollection extends EventEmitter implements Collection {
 
   public async count(selector?: object): Promise<number> {
     return 0;
+  }
+
+  private toObjectID(selector: any): any {
+    if (!selector._id) {
+      return selector;
+    }
+    const out = JSON.parse(JSON.stringify(selector));
+    const id = out._id;
+
+    if (typeof id === 'string' || typeof id === 'number') {
+      out._id = new ObjectID(id);
+    }
+    return out;
   }
 }
