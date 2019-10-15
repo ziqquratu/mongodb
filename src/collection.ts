@@ -51,7 +51,9 @@ export class MongoDBCollection extends EventEmitter implements Collection {
   }
 
   public async remove(selector: object): Promise<any[]> {
-    return [];
+    const docs = this.find(selector);
+    await this.collection.deleteMany(selector);
+    return docs;
   }
 
   public async count(selector?: object): Promise<number> {
