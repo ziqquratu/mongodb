@@ -11,7 +11,21 @@ export class MongoDBCollection extends EventEmitter implements Collection {
   }
 
   public async find(selector: object = {}, options: QueryOptions = {}): Promise<any[]> {
-    return [];
+    let cursor = this.collection.find(selector);
+    if (options.sort) {
+      const sort: any = {};
+      for (let s of options.sort) {
+        sort[s.key] = s.order;
+      }
+      cursor = cursor.sort(sort);
+    }
+    if (options.offset) {
+      cursor = cursor.skip(options.offset);
+    }
+    if (options.limit) {
+      cursor = cursor.limit(options.limit);
+    }
+    return cursor.toArray();
   }
 
   public async findOne(selector: object): Promise<any> {
