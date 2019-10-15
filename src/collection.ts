@@ -15,7 +15,7 @@ export class MongoDBCollection extends EventEmitter implements Collection {
   }
 
   public async findOne(selector: object): Promise<any> {
-    const doc = this.collection.findOne(this.toObjectID(selector));
+    const doc = await this.collection.findOne(this.toObjectID(selector));
     if (!doc) {
       throw new Error('Failed to find document in collection');
     }

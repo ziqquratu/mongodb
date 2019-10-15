@@ -1,6 +1,6 @@
 {
   "name": "@ziggurat/mongodb",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "MongoDB persistence for Ziggurat",
   "scripts": {
     "test": "mocha --opts mocha.opts"
@@ -14,14 +14,14 @@
     "mongodb": "^3.3.2"
   },
   "devDependencies": {
-    "@types/chai": "^4.0.0",
-    "@types/chai-as-promised": "0.0.31",
+    "@types/chai": "^4.2.3",
+    "@types/chai-as-promised": "^7.1.2",
     "@types/mocha": "^2.2.41",
     "@types/mongodb": "^3.3.6",
     "@types/node": "12.7.0",
     "@ziggurat/tiamat": "^0.17.1",
     "@ziggurat/ziggurat": "^0.41.16",
-    "chai": "^4.0.2",
+    "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "gulp": "^3.9.1",
     "gulp-batch": "^1.0.5",
@@ -31,7 +31,7 @@
     "harmonize": "^2.0.0",
     "mocha": "^3.4.2",
     "run-sequence": "^2.0.0",
-    "ts-node": "^3.0.6",
+    "ts-node": "^8.4.1",
     "tslint": "^5.7.0",
     "typescript": "^3.0.0"
   },
