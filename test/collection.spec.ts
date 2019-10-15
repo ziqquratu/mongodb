@@ -62,4 +62,15 @@ describe('MongoDBCollection', () => {
       expect(doc).to.haveOwnProperty('foo').equals('bar');
     });
   });
+
+  describe('find', () => {
+    it('should return empty list when no documents match selector', () => {
+      return expect(col.find({_id: '5da59296d6f3f71c28ae0aff'})).to.eventually.be.empty;
+    });
+    it('should return a list of matched documents', async () => {
+      const docs = await col.find({foo: 'bar'});
+      expect(docs).to.have.length(1);
+      expect(docs[0]).to.haveOwnProperty('foo').equal('bar');
+    });
+  });
 });
