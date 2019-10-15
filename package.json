@@ -1,6 +1,6 @@
 {
   "name": "@ziggurat/mongodb",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "MongoDB persistence for Ziggurat",
   "scripts": {
     "test": "mocha --opts mocha.opts"
@@ -20,7 +20,7 @@
     "@types/mongodb": "^3.3.6",
     "@types/node": "12.7.0",
     "@ziggurat/tiamat": "^0.17.1",
-    "@ziggurat/ziggurat": "^0.41.16",
+    "@ziggurat/ziggurat": "^0.42.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "del": "^5.1.0",
@@ -39,6 +39,6 @@
   },
   "peerDependencies": {
     "@ziggurat/tiamat": "^0.17.1",
-    "@ziggurat/ziggurat": "^0.41.16"
+    "@ziggurat/ziggurat": "^0.42.0"
   }
 }
