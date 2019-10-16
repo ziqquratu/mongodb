@@ -1,9 +1,10 @@
 import {Collection as MongoCollection} from 'mongodb';
-import {Collection} from '@ziggurat/ziggurat';
 import {MongoDBCollection} from '../src/collection';
 import {expect} from 'chai';
+import * as sinon from 'sinon';
 import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
+import * as sinonChai from 'sinon-chai';
 import 'mocha';
 
 let mongodb = require('mongo-mock');
@@ -11,10 +12,11 @@ let MongoClient = mongodb.MongoClient;
 MongoClient.persist = 'mongo.js';
 
 chai.use(chaiAsPromised);
+chai.use(sinonChai);
 
 describe('MongoDBCollection', () => {
   let mongoCollection: MongoCollection;
-  let col: Collection;
+  let col: MongoDBCollection;
 
   before(async () => {
     const client = await MongoClient.connect('mongodb://localhost:27017/test', {});
@@ -37,6 +39,7 @@ describe('MongoDBCollection', () => {
   });
 
   afterEach(async () => {
+    col.removeAllListeners();
     await col.remove({});
   });
 
@@ -58,6 +61,12 @@ describe('MongoDBCollection', () => {
       expect(doc1._id).to.eql(doc2._id);
       expect(doc1.amount).to.eql(10);
       expect(doc2.amount).to.eql(20);
+    });
+    it('should emit a document-upserted event', async () => {
+      let spy = sinon.spy();
+      col.on('document-upserted', spy);
+      await col.upsert({_id: 'foo'});
+      expect(spy).to.have.been.calledWith({_id: 'foo'});
     });
   });
 
