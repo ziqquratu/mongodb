@@ -38,12 +38,11 @@ export class MongoDBCollection extends EventEmitter implements Collection {
       res = await this.collection.insertOne(obj);
     } catch (err) {
       res = await this.collection.updateOne({_id: obj._id}, {$set: obj});
-      return obj;
     }
-    if (res.result.ok === 1) {
-      return res.ops[0];
+    if (res.result.ok !== 1) {
+      throw Error('Failed to upsert document');
     }
-    throw Error('Failed to insert');
+    return res.ops ? res.ops[0] : obj;
   }
 
   public async remove(selector: object): Promise<any[]> {
