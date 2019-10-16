@@ -121,9 +121,21 @@ describe('MongoDBCollection', () => {
     it('should return empty list when no documents match selector', () => {
       return expect(col.remove({_id: 7})).to.eventually.be.empty;
     });
+    it('should not emit event when no documents were removed', async () => {
+      let spy = sinon.spy();
+      col.on('document-removed', spy);
+      await col.remove({_id: 7});
+      expect(spy).to.have.callCount(0);
+    });
     it('should return a list of deleted documents', async () => {
       const docs = await col.remove({'item.category': 'cookies'});
       expect(docs).to.have.length(2);
+    });
+    it('should emit events when documents were removed', async () => {
+      let spy = sinon.spy();
+      col.on('document-removed', spy);
+      await col.remove({'item.category': 'cookies'});
+      expect(spy).to.have.callCount(2);
     });
   });
 });

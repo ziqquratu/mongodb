@@ -1,6 +1,6 @@
 {
   "name": "@ziggurat/mongodb",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "MongoDB persistence for Ziggurat",
   "scripts": {
     "test": "mocha --opts mocha.opts"

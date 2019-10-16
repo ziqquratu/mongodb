@@ -48,8 +48,11 @@ export class MongoDBCollection extends EventEmitter implements Collection {
   }
 
   public async remove(selector: object): Promise<any[]> {
-    const docs = this.find(selector);
+    const docs = await this.find(selector);
     await this.collection.deleteMany(selector);
+    for (let doc of docs) {
+      this.emit('document-removed', doc);
+    }
     return docs;
   }
 
