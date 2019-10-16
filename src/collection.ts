@@ -32,17 +32,19 @@ export class MongoDBCollection extends EventEmitter implements Collection {
     return doc;
   }
 
-  public async upsert(obj: any): Promise<any> {
+  public async upsert(doc: any): Promise<any> {
     let res: any;
     try {
-      res = await this.collection.insertOne(obj);
+      res = await this.collection.insertOne(doc);
     } catch (err) {
-      res = await this.collection.updateOne({_id: obj._id}, {$set: obj});
+      res = await this.collection.updateOne({_id: doc._id}, {$set: doc});
     }
     if (res.result.ok !== 1) {
       throw Error('Failed to upsert document');
     }
-    return res.ops ? res.ops[0] : obj;
+    const resultDoc = res.ops ? res.ops[0] : doc;
+    this.emit('document-upserted', resultDoc);
+    return resultDoc;
   }
 
   public async remove(selector: object): Promise<any[]> {
