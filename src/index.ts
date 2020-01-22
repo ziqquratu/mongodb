@@ -1,10 +1,17 @@
 import {Collection as MongoCollection} from 'mongodb';
 import {MongoDBCollection} from './collection';
-import {Container} from '@ziggurat/tiamat';
-import {Collection, CollectionProducer} from '@ziggurat/ziggurat';
+import {CollectionFactory} from '@ziqquratu/database';
 
-export function mongodb(collection: MongoCollection): CollectionProducer {
-  return (container: Container, name: string): Collection => {
-    return new MongoDBCollection(collection, name);
-  };
+export class MongoCollectionFactory<T> extends CollectionFactory<T> {
+  public constructor(private collection: MongoCollection) {
+    super();
+  }
+
+  public create(name: string) {
+    return new MongoDBCollection(this.collection, name);
+  }
+}
+
+export function mongodb(collection: MongoCollection) {
+  return new MongoCollectionFactory(collection);
 }

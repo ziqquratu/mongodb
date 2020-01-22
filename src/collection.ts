@@ -1,4 +1,4 @@
-import {Collection, QueryOptions} from '@ziggurat/ziggurat';
+import {Collection, QueryOptions} from '@ziqquratu/database';
 import {EventEmitter} from 'eventemitter3';
 import {Collection as MongoCollection} from 'mongodb';
 

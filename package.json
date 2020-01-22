@@ -1,7 +1,7 @@
 {
   "name": "@ziggurat/mongodb",
-  "version": "0.3.4",
-  "description": "MongoDB persistence for Ziggurat",
+  "version": "0.4.0",
+  "description": "mongoDB persistence for Ziqquratu database",
   "scripts": {
     "test": "mocha --opts mocha.opts"
   },
@@ -21,8 +21,7 @@
     "@types/node": "12.7.0",
     "@types/sinon": "^7.5.0",
     "@types/sinon-chai": "^3.2.3",
-    "@ziggurat/tiamat": "^0.17.1",
-    "@ziggurat/ziggurat": "^0.42.0",
+    "@ziqquratu/database": "^0.9.6",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "del": "^5.1.0",
@@ -42,7 +41,6 @@
     "typescript": "^3.0.0"
   },
   "peerDependencies": {
-    "@ziggurat/tiamat": "^0.17.1",
-    "@ziggurat/ziggurat": "^0.42.0"
+    "@ziqquratu/database": "^0.9.6"
   }
 }
