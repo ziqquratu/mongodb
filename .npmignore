@@ -2,8 +2,5 @@
 *.tgz
 node_modules
 src
-test
-gulpfile.js
-mocha.opts
 tsconfig.json
 tslint.json

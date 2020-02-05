@@ -3,8 +3,8 @@ import {MongoDBCollection} from '../src/collection';
 import {expect} from 'chai';
 import * as sinon from 'sinon';
 import * as chai from 'chai';
-import * as chaiAsPromised from 'chai-as-promised';
-import * as sinonChai from 'sinon-chai';
+import chaiAsPromised from 'chai-as-promised';
+import sinonChai from 'sinon-chai';
 import 'mocha';
 
 let mongodb = require('mongo-mock');
