@@ -5,6 +5,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist",
+    "commit": "git-cz",
     "test": "mocha --exit -r ts-node/register 'test/**/*.ts' && rimraf mongo.js"
   },
   "main": "dist/index.js",
@@ -26,6 +27,8 @@
     "@ziqquratu/database": "^0.9.6",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "^3.1.0",
     "mocha": "^3.4.2",
     "mongo-mock": "^3.8.1",
     "rimraf": "^3.0.1",
@@ -37,5 +40,10 @@
   },
   "peerDependencies": {
     "@ziqquratu/database": "^0.9.6"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
